@@ -124,19 +124,19 @@ class NullShape < Struct.new(:attributes)
   @@TYPE = :null_shape
 end
 
-class Point < Struct.new(:attributes, :x, :y)
+class Point < Struct.new(:x, :y, :attributes)
   @@TYPE = :point
 end
 
-class MultiPoint < Struct.new(:attributes, :bounding_box, :points)
+class MultiPoint < Struct.new(:bounding_box, :points, :attributes)
   @@TYPE = :multi_point
 end
 
-class PolyLine < Struct.new(:attributes, :bounding_box, :parts, :points)
+class PolyLine < Struct.new(:bounding_box, :parts, :points, :attributes)
   @@TYPE = :poly_line  
 end
 
-class Polygon < Struct.new(:attributes, :bounding_box, :parts, :points)
+class Polygon < Struct.new(:bounding_box, :parts, :points, :attributes)
   @@TYPE = :polygon  
 end
 
