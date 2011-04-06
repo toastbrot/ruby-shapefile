@@ -1,4 +1,5 @@
 .redcar/
+*.gemspec
 
 # rcov generated
 coverage
