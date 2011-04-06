@@ -1,4 +1,5 @@
 = ruby-shapefile
+http://github.com/toastbrot/ruby-shapefile
 
 Pure ruby parser for .shp shapefiles and .dbf attribute files.
 
