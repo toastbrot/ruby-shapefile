@@ -1,0 +1,31 @@
+= ruby-shapefile
+
+Pure ruby parser for .shp shapefiles and .dbf attribute files.
+
+Supported shapes:
+* NullShape
+* Point
+* MultiPoint
+* PolyLine
+* Polygon
+
+Unsupported are all -M, -Z Shapes and MultiPatch.
+They'll be added when i get my hands on some useful test shapefiles.
+
+The specs are sadly lacking and it'll stay that way until i get hold of shapefiles better suited for testing.
+
+== Contributing to ruby-shapefile
+ 
+* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
+* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
+* Fork the project
+* Start a feature/bugfix branch
+* Commit and push until you are happy with your contribution
+* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
+* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+
+== Copyright
+
+Copyright (c) 2011 Marc Dietrichstein. See LICENSE.txt for
+further details.
+
