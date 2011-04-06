@@ -19,7 +19,7 @@ Jeweler::Tasks.new do |gem|
   gem.email = "marc@dietrichstein.net"
   gem.authors = ["Marc Dietrichstein"]
   
-  #gem.add_runtime_dependency 'dbf', '> 1.5.0'
+  gem.add_runtime_dependency 'dbf', '> 1.5.0'
   #  gem.add_development_dependency 'rspec', '> 1.2.3'
 end
 Jeweler::RubygemsDotOrgTasks.new
