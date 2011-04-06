@@ -14,6 +14,11 @@ They'll be added when i get my hands on some useful test shapefiles.
 
 The specs are sadly lacking and it'll stay that way until i get hold of shapefiles better suited for testing.
 
+Implemented using the official shapefile specification at http://www.esri.com/library/whitepapers/pdfs/shapefile.pdf
+
+Usage:
+Look at examples/read_all.rb
+
 == Contributing to ruby-shapefile
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet

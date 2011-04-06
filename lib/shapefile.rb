@@ -1,23 +1,12 @@
+require 'rubygems'
+require 'dbf'
 require 'logger'
 require 'converters'
 
 module Shapefile
-# N 32 but integer big endian
-# L 32 bit interger little endian
 
-# E         | Float   | double-precision float, little-endian byte order
-# G         | Float   | double-precision float, network (big-endian) byte order
-
-=begin
-  implemented spec http://www.esri.com/library/whitepapers/pdfs/shapefile.pdf
-=end
-
+# shp specification at http://www.esri.com/library/whitepapers/pdfs/shapefile.pdf
 class Reader
-
-  def has_index?
-    not @shx_filename.nil?
-  end
-
   def has_attributes?
     not @dbf_filename.nil?
   end
@@ -40,10 +29,8 @@ class Reader
       @shp_filename = basename
     else
       @shp_filename = "#{basename}.shp"
-      @shx_filename = File.exists?("#{basename}.shx") ? "#{basename}.shx" : nil
       @dbf_filename = File.exists?("#{basename}.dbf") ? "#{basename}.dbf" : nil
 
-      @log.warn("couldn't find #{basename}.shx - no index found") if not has_index?
       @log.warn("couldn't find #{basename}.dbf - won't read any attributes") if not has_attributes?
     end
 
@@ -69,10 +56,23 @@ class Reader
 
       bytes_remaining = (header.file_length*2)-100
       while bytes_remaining>0
-        shape, bytes_read = read_record(f)
+        shape, bytes_read = read_record(f)        
         shapes.push shape
         bytes_remaining -= bytes_read
+      end
+    end
+    
+    if has_attributes?
+      attr_table = DBF::Table.new(@dbf_filename)
+      
+      shapes.each_with_index do |shape, i|
+        attrs = {}
+        record = attr_table.record(i)
+        record.attributes.each do |key, value|
+          attrs[key] = value
         end
+        shape.attributes = attrs
+      end      
     end
     shapes
   end
@@ -120,23 +120,23 @@ Header = Struct.new(:file_code, :file_length, :version, :shape_type, :bounding_b
 BoundingBox2d = Struct.new(:x_min, :y_min, :x_max, :y_max)
 BoundingBox3d = Struct.new(:x_min, :y_min, :x_max, :y_max, :z_min, :z_max, :m_min, :m_max)
 
-class NullShape
+class NullShape < Struct.new(:attributes)
   @@TYPE = :null_shape
 end
 
-class Point < Struct.new(:x, :y)
+class Point < Struct.new(:attributes, :x, :y)
   @@TYPE = :point
 end
 
-class MultiPoint < Struct.new(:bounding_box, :points)
+class MultiPoint < Struct.new(:attributes, :bounding_box, :points)
   @@TYPE = :multi_point
 end
 
-class PolyLine < Struct.new(:bounding_box, :parts, :points)
+class PolyLine < Struct.new(:attributes, :bounding_box, :parts, :points)
   @@TYPE = :poly_line  
 end
 
-class Polygon < Struct.new(:bounding_box, :parts, :points)
+class Polygon < Struct.new(:attributes, :bounding_box, :parts, :points)
   @@TYPE = :polygon  
 end
 
